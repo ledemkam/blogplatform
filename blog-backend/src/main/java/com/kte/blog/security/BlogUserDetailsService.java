@@ -1,6 +1,5 @@
-package com.kte.blog.services.impl;
+package com.kte.blog.security;
 
-import com.kte.blog.security.BlogUserDetails;
 import com.kte.blog.domain.entities.User;
 import com.kte.blog.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
