@@ -3,6 +3,7 @@ package com.kte.blog.services.impl;
 import com.kte.blog.domain.entities.Category;
 import com.kte.blog.repositories.CategoryRepository;
 import com.kte.blog.services.CategoryService;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,6 +19,9 @@ import java.util.UUID;
 public class CategoryServiceImpl implements CategoryService {
 
     private final CategoryRepository categoryRepository;
+
+
+
 
     @Override
     public List<Category> listCategories() {
@@ -37,9 +41,11 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public void deleteCategory(UUID id) {
         Optional<Category> category = categoryRepository.findById(id);
-        if (category.isPresent() && !category.get().getPosts().isEmpty()) {
-            throw new IllegalStateException("Category has posts, cannot delete");
+        if(category.isPresent()) {
+            if(!category.get().getPosts().isEmpty()) {
+                throw new IllegalStateException("Category has posts associated with it");
+            }
+            categoryRepository.deleteById(id);
         }
-        categoryRepository.deleteById(id);
     }
 }

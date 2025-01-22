@@ -16,21 +16,18 @@ import java.util.UUID;
 @Entity
 @Table(name = "categories")
 public class Category {
-
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @Column( nullable = false, unique = true)
+    @Column(nullable = false, unique = true)
     private String name;
 
-    @Column( nullable = false)
-    @OneToMany(mappedBy = "category",cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Post> posts = new ArrayList<>();
-
-
+    // Custom equals implementation needed to avoid Lombok's implementation
+    // which can cause issues with JPA entity lifecycle management
     @Override
     public boolean equals(Object o) {
+        if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Category category = (Category) o;
         return Objects.equals(id, category.id) &&
