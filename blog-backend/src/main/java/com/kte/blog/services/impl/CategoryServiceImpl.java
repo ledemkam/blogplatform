@@ -1,13 +1,20 @@
 package com.kte.blog.services.impl;
 
 import com.kte.blog.domain.entities.Category;
+import com.kte.blog.domain.entities.User;
 import com.kte.blog.repositories.CategoryRepository;
+import com.kte.blog.repositories.UserRepository;
 import com.kte.blog.services.CategoryService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -30,4 +37,17 @@ public class CategoryServiceImpl implements CategoryService {
         }
         return categoryRepository.save(category);
     }
+
+    @Override
+    public void deleteCategory(UUID id) {
+        Optional<Category> category = categoryRepository.findById(id);
+        if(category.isPresent()) {
+            if(!category.get().getPosts().isEmpty()) {
+                throw new IllegalArgumentException("Category with posts associated with it");
+            }
+            categoryRepository.deleteById(id);
+        }
+    }
+
+
 }
