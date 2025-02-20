@@ -3,6 +3,7 @@ package com.kte.blog.services.impl;
 import com.kte.blog.domain.entities.Category;
 import com.kte.blog.domain.entities.Post;
 import com.kte.blog.domain.entities.Tag;
+import com.kte.blog.domain.entities.User;
 import com.kte.blog.domain.enumerations.PostStatus;
 import com.kte.blog.repositories.PostRepository;
 import com.kte.blog.services.CategoryService;
@@ -55,5 +56,10 @@ public class PostServiceImpl implements PostService {
          }
 
             return postRepository.findAllByStatus(PostStatus.PUBLISHED);
+    }
+
+    @Override
+    public List<Post> getDraftPosts(User user) {
+        return postRepository.findAllByAuthorAndStatus(user, PostStatus.DRAFT);
     }
 }
