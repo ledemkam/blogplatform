@@ -1,14 +1,12 @@
 package com.kte.blog.services.impl;
 
 import com.kte.blog.domain.entities.Category;
-import com.kte.blog.domain.entities.User;
 import com.kte.blog.repositories.CategoryRepository;
-import com.kte.blog.repositories.UserRepository;
+
 import com.kte.blog.services.CategoryService;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -47,6 +45,12 @@ public class CategoryServiceImpl implements CategoryService {
             }
             categoryRepository.deleteById(id);
         }
+    }
+
+    @Override
+    public Category getCategoryById(UUID id){
+      return   categoryRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Category not found with id " + id));
     }
 
 

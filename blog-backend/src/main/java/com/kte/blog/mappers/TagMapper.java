@@ -1,6 +1,6 @@
 package com.kte.blog.mappers;
 
-import com.kte.blog.domain.dtos.TagResponse;
+import com.kte.blog.domain.dtos.TagDto;
 import com.kte.blog.domain.entities.Post;
 import com.kte.blog.domain.entities.Tag;
 import com.kte.blog.domain.enumerations.PostStatus;
@@ -16,9 +16,9 @@ import java.util.Set;
 public interface TagMapper {
 
     @Mapping(target = "postCount", source = "posts", qualifiedByName = "calculatePostCount")
-    TagResponse toTagResponse(Tag tag);
+    TagDto toTagResponse(Tag tag);
 
-    List<TagResponse> toTagResponseList(List<Tag> tags);
+    List<TagDto> toTagResponseList(List<Tag> tags);
 
     @Named("calculatePostCount")
     default Integer calculatePostCount(Set<Post> posts) {

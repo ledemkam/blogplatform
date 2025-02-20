@@ -2,7 +2,7 @@ package com.kte.blog.controllers;
 
 
 import com.kte.blog.domain.dtos.CreateTagsRequest;
-import com.kte.blog.domain.dtos.TagResponse;
+import com.kte.blog.domain.dtos.TagDto;
 import com.kte.blog.domain.entities.Tag;
 import com.kte.blog.mappers.TagMapper;
 import com.kte.blog.services.TagService;
@@ -23,19 +23,19 @@ public class TagController {
     private final TagMapper tagMapper;
 
     @GetMapping
-    public ResponseEntity<List<TagResponse>> getAllTags() {
+    public ResponseEntity<List<TagDto>> getAllTags() {
         List<Tag> tags = tagService.getAllTags();
         return ResponseEntity.ok(tagMapper.toTagResponseList(tags));
     }
 
     @PostMapping
-    public ResponseEntity<List<TagResponse>> createTags(@RequestBody CreateTagsRequest createTagsRequest) {
+    public ResponseEntity<List<TagDto>> createTags(@RequestBody CreateTagsRequest createTagsRequest) {
         List<Tag> savedtags = tagService.createTags(createTagsRequest.getNames());
-        List<TagResponse> createdTagResponses = savedtags.stream()
+        List<TagDto> createdTagRespons = savedtags.stream()
                 .map(tagMapper::toTagResponse)
                 .toList();
         return new ResponseEntity<>(
-                createdTagResponses,
+                createdTagRespons,
                 HttpStatus.CREATED
         );
     }
