@@ -1,8 +1,10 @@
 package com.kte.blog.mappers;
 
 
+import com.kte.blog.domain.dtos.CreatePostRequestDto;
 import com.kte.blog.domain.dtos.PostDto;
 import com.kte.blog.domain.entities.Post;
+import com.kte.blog.domain.request.CreatePostRequest;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.ReportingPolicy;
@@ -14,5 +16,6 @@ public interface PostMapper {
     @Mapping(target= "category", source = "category")
     @Mapping(target= "tags", source = "tags")
     PostDto toDto(Post post);
+    CreatePostRequest toCreatePostRequest(CreatePostRequestDto dto);
 
 }

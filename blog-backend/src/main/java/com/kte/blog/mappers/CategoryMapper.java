@@ -1,10 +1,10 @@
 package com.kte.blog.mappers;
 
 import com.kte.blog.domain.dtos.CategoryDto;
-import com.kte.blog.domain.dtos.CreateCategoryRequest;
 import com.kte.blog.domain.entities.Category;
 import com.kte.blog.domain.entities.Post;
 import com.kte.blog.domain.enumerations.PostStatus;
+import com.kte.blog.domain.request.LoginRequest;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
@@ -28,5 +28,5 @@ public interface CategoryMapper {
                 .count();
     }
 
-    Category toEntity(CreateCategoryRequest createCategoryRequest);
+    Category toEntity(LoginRequest.CreateCategoryRequest createCategoryRequest);
 }

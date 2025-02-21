@@ -1,9 +1,9 @@
 package com.kte.blog.controllers;
 
 
-import com.kte.blog.domain.dtos.CreateTagsRequest;
 import com.kte.blog.domain.dtos.TagDto;
 import com.kte.blog.domain.entities.Tag;
+import com.kte.blog.domain.request.LoginRequest;
 import com.kte.blog.mappers.TagMapper;
 import com.kte.blog.services.TagService;
 import lombok.RequiredArgsConstructor;
@@ -29,7 +29,7 @@ public class TagController {
     }
 
     @PostMapping
-    public ResponseEntity<List<TagDto>> createTags(@RequestBody CreateTagsRequest createTagsRequest) {
+    public ResponseEntity<List<TagDto>> createTags(@RequestBody LoginRequest.CreateTagsRequest createTagsRequest) {
         List<Tag> savedtags = tagService.createTags(createTagsRequest.getNames());
         List<TagDto> createdTagRespons = savedtags.stream()
                 .map(tagMapper::toTagResponse)

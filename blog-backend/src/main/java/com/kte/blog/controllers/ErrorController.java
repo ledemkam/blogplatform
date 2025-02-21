@@ -1,6 +1,6 @@
 package com.kte.blog.controllers;
 
-import com.kte.blog.domain.dtos.ApiErrorResponse;
+import com.kte.blog.domain.response.AuthResponse;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -17,9 +17,9 @@ import org.springframework.web.servlet.resource.NoResourceFoundException;
 public class ErrorController {
 
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<ApiErrorResponse> handleException(Exception ex) {
+    public ResponseEntity<AuthResponse.ApiErrorResponse> handleException(Exception ex) {
         log.error("Caught exception", ex);
-        ApiErrorResponse error = ApiErrorResponse.builder()
+        AuthResponse.ApiErrorResponse error = AuthResponse.ApiErrorResponse.builder()
                 .status(HttpStatus.INTERNAL_SERVER_ERROR.value())
                 .message("An unexpected error occurred")
                 .build();
@@ -27,9 +27,9 @@ public class ErrorController {
     }
 
     @ExceptionHandler(IllegalArgumentException.class)
-    public ResponseEntity<ApiErrorResponse> handleIllegalArgumentException(
+    public ResponseEntity<AuthResponse.ApiErrorResponse> handleIllegalArgumentException(
             IllegalArgumentException ex) {
-        ApiErrorResponse error = ApiErrorResponse.builder()
+        AuthResponse.ApiErrorResponse error = AuthResponse.ApiErrorResponse.builder()
                 .status(HttpStatus.BAD_REQUEST.value())
                 .message(ex.getMessage())
                 .build();
@@ -37,9 +37,9 @@ public class ErrorController {
     }
 
     @ExceptionHandler(IllegalStateException.class)
-    public ResponseEntity<ApiErrorResponse> handleIllegalStateException(
+    public ResponseEntity<AuthResponse.ApiErrorResponse> handleIllegalStateException(
             IllegalStateException ex) {
-        ApiErrorResponse error = ApiErrorResponse.builder()
+        AuthResponse.ApiErrorResponse error = AuthResponse.ApiErrorResponse.builder()
                 .status(HttpStatus.CONFLICT.value())
                 .message(ex.getMessage())
                 .build();
@@ -47,8 +47,8 @@ public class ErrorController {
     }
 
     @ExceptionHandler(BadCredentialsException.class)
-    public ResponseEntity<ApiErrorResponse> handleBadCredentialsException(BadCredentialsException ex) {
-        ApiErrorResponse error = ApiErrorResponse.builder()
+    public ResponseEntity<AuthResponse.ApiErrorResponse> handleBadCredentialsException(BadCredentialsException ex) {
+        AuthResponse.ApiErrorResponse error = AuthResponse.ApiErrorResponse.builder()
                 .status(HttpStatus.UNAUTHORIZED.value())
                 .message("Incorrect username or password")
                 .build();
@@ -56,8 +56,8 @@ public class ErrorController {
     }
 
     @ExceptionHandler(EntityNotFoundException.class)
-    public ResponseEntity<ApiErrorResponse> handleEntityNotFoundException(EntityNotFoundException ex) {
-        ApiErrorResponse error = ApiErrorResponse.builder()
+    public ResponseEntity<AuthResponse.ApiErrorResponse> handleEntityNotFoundException(EntityNotFoundException ex) {
+        AuthResponse.ApiErrorResponse error = AuthResponse.ApiErrorResponse.builder()
                 .status(HttpStatus.NOT_FOUND.value())
                 .message(ex.getMessage())
                 .build();
@@ -65,8 +65,8 @@ public class ErrorController {
     }
 
     @ExceptionHandler(NoResourceFoundException.class)
-    public ResponseEntity<ApiErrorResponse> handleNoResourceFoundException(NoResourceFoundException ex) {
-        ApiErrorResponse error = ApiErrorResponse.builder()
+    public ResponseEntity<AuthResponse.ApiErrorResponse> handleNoResourceFoundException(NoResourceFoundException ex) {
+        AuthResponse.ApiErrorResponse error = AuthResponse.ApiErrorResponse.builder()
                 .status(HttpStatus.NOT_FOUND.value())
                 .message("Resource not found")
                 .build();

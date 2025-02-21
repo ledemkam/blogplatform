@@ -1,7 +1,7 @@
 package com.kte.blog.controllers;
 
-import com.kte.blog.domain.dtos.AuthResponse;
-import com.kte.blog.domain.dtos.LoginRequest;
+import com.kte.blog.domain.response.AuthResponse;
+import com.kte.blog.domain.request.LoginRequest;
 import com.kte.blog.services.AuthenticationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
