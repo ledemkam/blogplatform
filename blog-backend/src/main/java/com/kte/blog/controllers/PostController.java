@@ -2,9 +2,11 @@ package com.kte.blog.controllers;
 
 import com.kte.blog.domain.dtos.CreatePostRequestDto;
 import com.kte.blog.domain.dtos.PostDto;
+import com.kte.blog.domain.dtos.UpdatePostRequestDto;
 import com.kte.blog.domain.entities.Post;
 import com.kte.blog.domain.entities.User;
 import com.kte.blog.domain.request.CreatePostRequest;
+import com.kte.blog.domain.request.UpdatePostRequest;
 import com.kte.blog.mappers.PostMapper;
 import com.kte.blog.services.PostService;
 import com.kte.blog.services.UserService;
@@ -55,6 +57,16 @@ public class PostController {
         Post createdPost = postService.createPost(loggedInUser, createPostRequest);
         PostDto createdPostDto = postMapper.toDto(createdPost);
         return new ResponseEntity<>(createdPostDto, HttpStatus.CREATED);
+    }
+
+    @PutMapping(path = "/{id}")
+    public ResponseEntity<PostDto> updatePost(
+            @PathVariable UUID id,
+            @Valid @RequestBody UpdatePostRequestDto updatePostRequestDto) {
+        UpdatePostRequest updatePostRequest = postMapper.toUpdatePostRequest(updatePostRequestDto);
+        Post updatedPost = postService.updatePost(id, updatePostRequest);
+        PostDto updatedPostDto = postMapper.toDto(updatedPost);
+        return ResponseEntity.ok(updatedPostDto);
     }
 
 }
