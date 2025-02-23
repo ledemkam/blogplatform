@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useCallback, useEffect } from 'react';
-import { apiService } from '../services/apiService';
+import { apiService } from './services/apiService';
 
 interface AuthUser {
   id: string;
@@ -37,7 +37,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
           // setUser(userProfile);
           setIsAuthenticated(true);
           setToken(storedToken);
-        } catch (error) {
+        } catch {
           // If token is invalid, clear authentication
           localStorage.removeItem('token');
           setIsAuthenticated(false);
@@ -51,19 +51,15 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   }, []);
 
   const login = useCallback(async (email: string, password: string) => {
-    try {
-      const response = await apiService.login({ email, password });
-      
-      localStorage.setItem('token', response.token);
-      setToken(response.token);
-      setIsAuthenticated(true);
+    const response = await apiService.login({ email, password });
+    
+    localStorage.setItem('token', response.token);
+    setToken(response.token);
+    setIsAuthenticated(true);
 
-      // TODO: Add endpoint to fetch user profile after login
-      // const userProfile = await apiService.getUserProfile();
-      // setUser(userProfile);
-    } catch (error) {
-      throw error;
-    }
+    // TODO: Add endpoint to fetch user profile after login
+    // const userProfile = await apiService.getUserProfile();
+    // setUser(userProfile);
   }, []);
 
   const logout = useCallback(() => {
