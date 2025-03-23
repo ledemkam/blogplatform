@@ -13,7 +13,7 @@ export interface ApiError {
 }
 
 class ApiService {
-  private api: AxiosInstance;
+  private readonly api: AxiosInstance;
   private static instance: ApiService;
 
   private constructor() {

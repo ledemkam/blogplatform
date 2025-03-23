@@ -29,7 +29,9 @@ import {
   ChevronDown,
   X
 } from 'lucide-react';
-import { Post, Category, Tag, PostStatus } from '../services/apiService';
+import { Post, PostStatus, Category, Tag } from '../types/all';
+
+type Level = 1 | 2 | 3;
 
 interface PostFormProps {
   initialPost?: Post | null;
@@ -54,11 +56,11 @@ const PostForm: React.FC<PostFormProps> = ({
   availableTags,
   isSubmitting = false,
 }) => {
-  const [title, setTitle] = useState(initialPost?.title || '');
-  const [categoryId, setCategoryId] = useState(initialPost?.category?.id || '');
+  const [title, setTitle] = useState(initialPost?.title ?? '');
+  const [categoryId, setCategoryId] = useState(initialPost?.category?.id ?? '');
   const [selectedTags, setSelectedTags] = useState<Tag[]>(initialPost?.tags || []);
   const [status, setStatus] = useState<PostStatus>(
-    initialPost?.status || PostStatus.DRAFT
+    initialPost?.status ?? PostStatus.DRAFT
   );
   const [errors, setErrors] = useState<Record<string, string>>({});
 
@@ -82,7 +84,7 @@ const PostForm: React.FC<PostFormProps> = ({
       }),
       ListItem,
     ],
-    content: initialPost?.content || '',
+    content: initialPost?.content ?? '',
     editorProps: {
       attributes: {
         class: 'prose max-w-none focus:outline-none min-h-[400px] px-4 py-2 border rounded-lg',
@@ -96,7 +98,7 @@ const PostForm: React.FC<PostFormProps> = ({
       editor.commands.setContent(initialPost.content);
       setCategoryId(initialPost.category?.id);
       setSelectedTags(initialPost.tags);
-      setStatus(initialPost.status || PostStatus.DRAFT);
+      setStatus(initialPost.status ?? PostStatus.DRAFT);
     }
   }, [initialPost, editor]);
 
@@ -126,7 +128,7 @@ const PostForm: React.FC<PostFormProps> = ({
 
     await onSubmit({
       title: title.trim(),
-      content: editor?.getHTML() || '',
+      content: editor?.getHTML() ?? '',
       categoryId: categoryId,
       tagIds: selectedTags.map(tag => tag.id),
       status,
@@ -143,7 +145,7 @@ const PostForm: React.FC<PostFormProps> = ({
     setSelectedTags(selectedTags.filter(tag => tag !== tagToRemove));
   };
 
-  const handleHeadingSelect = (level: number) => {
+  const handleHeadingSelect = (level: Level) => {
     editor?.chain().focus().toggleHeading({ level }).run();
   };
 
@@ -179,7 +181,7 @@ const PostForm: React.FC<PostFormProps> = ({
                   </Button>
                 </DropdownTrigger>
                 <DropdownMenu
-                  onAction={(key) => handleHeadingSelect(Number(key))}
+                  onAction={(key) => handleHeadingSelect(Number(key) as Level)}
                   aria-label="Heading levels"
                 >
                   <DropdownItem key="1" className={editor?.isActive('heading', { level: 1 }) ? 'bg-default-200' : ''}>
